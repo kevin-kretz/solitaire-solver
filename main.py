@@ -4,7 +4,7 @@ class Card:
     def __init__(self, suit, symbol):
         self.suit = suit
         self.symbol = symbol
-        self.face_up = True
+        self.face_up = False
 
         if self.suit == "♥" or self.suit == "♦":
             self.color = "red"
@@ -26,9 +26,12 @@ class Card:
 
     def __str__(self):
         if self.face_up:
-            return str(f"[{self.symbol} {self.suit}]")
+            if self.value == 10:
+                return str(f"[{self.symbol} {self.suit} ]")
+            else:
+                return str(f"[ {self.symbol} {self.suit} ]")
         else:
-            return "[?]"
+            return "[  ?  ]"
     
     def debug_string(self):
         return str(f"{self.symbol}{self.suit} face_up={self.face_up}")
@@ -42,11 +45,65 @@ def build_deck():
 def game_over():
     pass
 
-def place_card():
+def get_card_from_deck():
     card = deck[0]
-    deck.pop(card)
+    deck.pop(0)
     return card
-    
+
+def build_columns():
+    number_of_cards_to_place = 1
+
+    for index, column in enumerate(columns):
+        while len(column) < index + 1:
+            card = get_card_from_deck()
+            if len(column) == index:
+                card.face_up = True
+            column.append(card)
+
+def print_columns():
+    for i in range(7):
+        for column in columns:
+            if i+1 <= len(column):
+                print(column[i], end=" ")
+            else:
+                print("       ", end=" ")
+        print("")
+
+def print_deck():
+    if len(deck) >= 1:
+        print(f"[  ?  ]", end=" ")
+    else:
+        print("     ", end=" ")
+
+def print_cascade():
+    if len(cascade) >= 1:
+        print(cascade[-1], end=" ")
+    else:
+        print("     ", end=" ")
+
+def print_foundations():
+    for column in foundations:
+        if len(column) >= 1:
+            print(column[-1], end=" ")
+        else:
+            print("[     ]", end=" ")
+
+def print_top_row():
+    print_deck()
+    print_cascade()
+    print("       ", end=" ")
+    print_foundations()
+
+def print_board():
+    print_top_row()
+    print("")
+    print("")     
+    print_columns()
+
+def flip_card():
+    card = get_card_from_deck()
+    card.face_up = True
+    cascade.append(card)
 
 deck = []
 suits = ["♥", "♦", "♣", "♠"]
@@ -58,5 +115,6 @@ cascade = [] # Cards flipped from deck
 
 build_deck()
 random.shuffle(deck)
-
-print(deck[0])
+build_columns()
+flip_card()
+print_board()
