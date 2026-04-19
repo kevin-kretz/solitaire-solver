@@ -50,9 +50,7 @@ def foundations_are_empty():
 
 def game_over():
     for foundation in foundations:
-        if len(foundation) == 0:
-            return False
-        elif foundation[-1] != "K":
+        if len(foundation) < 13:
             return False
     return True
     
@@ -157,12 +155,13 @@ def handle_move():
 
     elif source == "f":
         source_index = get_source_index(source)
+        number_of_cards = 1
         
         if source_index == None:
             return None
         
         else:
-            cards_to_check = columns[source_index][-1:]
+            cards_to_check = foundations[source_index][-1:]
     
     elif source == "w":
         source_index = -1
@@ -208,6 +207,10 @@ def is_opposite_color(card1:Card, card2:Card):
     return card1.color != card2.color
 
 def is_valid_column_index(cards:list[Card], index:int):
+    if index < 0 or index > 6:
+        print("Expected index between 0-6. Try again.")
+        return False
+    
     if len(columns[index]) == 0:
         if cards[0].value != 13:
             print("You can only place Kings on an empty column. Try again.")
