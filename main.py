@@ -23,7 +23,7 @@ def can_move_to_foundation(card:Card):
                 return True
     return False
 
-def cards_alternate_colors(column_index, number_of_cards):
+def cards_alternate_colors(column_index:int, number_of_cards:int):
     previous_card = None
     card_index = -number_of_cards
 
@@ -227,7 +227,7 @@ def is_valid_column_index(cards:list[Card], index:int):
     
     return True
 
-def is_valid_destination(cards, destination):
+def is_valid_destination(cards: list[Card], destination:str):
     if destination != "c" and destination != "f":
         print("You can only choose 'c' of 'f'. (Enter 'z' to cancel the move) ")
         return False
@@ -242,7 +242,7 @@ def is_valid_destination(cards, destination):
     
     return True
 
-def is_valid_number_of_cards(column_index, number_of_cards):
+def is_valid_number_of_cards(column_index:int, number_of_cards:int):
     if number_of_cards <= 0:
         print("Number of cards should be a positive number. Try again.")
         return False
@@ -254,7 +254,7 @@ def is_valid_number_of_cards(column_index, number_of_cards):
         return False
     return True
     
-def is_valid_source(source):
+def is_valid_source(source:str):
     if source != "c" and source != "d" and source != "w" and source != "f":
         print("Not a valid source. Try again.")
         return False
@@ -305,7 +305,7 @@ def move_card(source:str, destination:str, source_index:int = None, destination_
         elif destination == "f":
             foundations[destination_index].append(waste.pop())
 
-def move_cards(source_index, destination_index, number_of_cards):
+def move_cards(source_index:int, destination_index:int, number_of_cards:int):
     cards = []
     card_counter = number_of_cards
 
@@ -317,7 +317,6 @@ def move_cards(source_index, destination_index, number_of_cards):
 
     if len(columns[source_index]) >= 1:
         columns[source_index][-1].face_up = True
-
 
 def print_board():
     print_top_row()
